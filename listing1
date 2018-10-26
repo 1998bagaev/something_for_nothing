@@ -1,39 +1,70 @@
-<code_scheme name="JavaParser">
-	  <option name="OTHER_INDENT_OPTIONS">
-	    <value>
-	      <option name="INDENT_SIZE" value="4" />
-	      <option name="CONTINUATION_INDENT_SIZE" value="8" />
-	      <option name="TAB_SIZE" value="4" />
-	      <option name="USE_TAB_CHARACTER" value="true" />
-	      <option name="SMART_TABS" value="true" />
-	      <option name="LABEL_INDENT_SIZE" value="0" />
-	      <option name="LABEL_INDENT_ABSOLUTE" value="false" />
-	      <option name="USE_RELATIVE_INDENTS" value="false" />
-	    </value>
-	  </option>
-	  <option name="JD_ALIGN_PARAM_COMMENTS" value="false" />
-	  <option name="JD_ALIGN_EXCEPTION_COMMENTS" value="false" />
-	  <option name="WRAP_COMMENTS" value="true" />
-	  <XML>
-	    <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
-	  </XML>
-	  <codeStyleSettings language="JAVA">
-	    <option name="RIGHT_MARGIN" value="120" />
-	    <indentOptions>
-	      <option name="SMART_TABS" value="true" />
-	    </indentOptions>
-	  </codeStyleSettings>
-	  <codeStyleSettings language="Scala">
-	    <indentOptions>
-	      <option name="USE_TAB_CHARACTER" value="true" />
-	      <option name="SMART_TABS" value="true" />
-	    </indentOptions>
-	  </codeStyleSettings>
-	  <codeStyleSettings language="XML">
-	    <indentOptions>
-	      <option name="USE_TAB_CHARACTER" value="true" />
-	      <option name="SMART_TABS" value="true" />
-	    </indentOptions>
-	  </codeStyleSettings>
-	</code_scheme>
+@Override
+public void run(String[] args) {
+			this.setArgs(args);
+			if (args.length != 0) {
+				this.run();
+				// display GUI
+				if (this.jsapActualArgs.getBoolean("gui")) {
+					new SpoonModelTree(getFactory());
+				}
+			} else {
+				this.printUsage();
+			}
+		}
+	
+
+		public void setArgs(String[] args2) {
+			this.commandLineArgs = args2;
+			if (processed) {
+				throw new SpoonException("You cannot process twice the same launcher instance.");
+			}
+			processed = true;
+	
+
+			processArguments();
+		}
+	
+
+		public void printUsage() {
+			this.commandLineArgs = new String[] { "--help" };
+			processArguments();
+		}
+	
+
+		static {
+			jsapSpec = defineArgs();
+		}
+			/**
+		 * Creates a {@link Launcher} using the {@link Factory} returned by {@link #createFactory()}.
+		 */
+		public Launcher() {
+			factory = createFactory();
+			processArguments();
+		}
+
+		/**
+		 * Creates a {@link Launcher} with {@link Factory} {@code pFactory}.
+		 *
+		 * @param pFactory
+		 * 		The {@link Factory} that will be utilized in {@link #buildMod-el()}.
+		 * @throws IllegalArgumentException
+		 * 		If {@code pFactory == null}.
+		 */
+		public Launcher(final Factory pFactory) {
+			if (pFactory == null) {
+				throw new IllegalArgumentException("unable to create launcher with null factory");
+			}
+			factory = pFactory;
+			processArguments();
+		}
+			@Override
+		public void addInputResource(String path) {
+			File file = new File(path);
+			if (file.isDirectory()) {
+				addInputResource(new FileSystemFolder(file));
+			} else {
+				addInputResource(new FileSystemFile(file));
+			}
+		}
+ 
 
