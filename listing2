@@ -1,0 +1,28 @@
+import com.github.javaparser.JavaParser:
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
+import java.io.FileInputStream;
+public class CuPrinter{
+     public static void main(String[] args) throws Exception {
+//creates an inpit stream for the file to be parsed
+FileInputStream in= new FileInputStream(“C:\\Users\\IdeaProject\\src\\Mybot.java”)
+Compilation cu;
+try {
+//parse the file
+Cu=JavaParser.parse(in);
+} finally {
+In.close();
+       }
+Cu.accept(new ClassVisitor(), null);
+    }
+private static class ClassVisitor extends VoidVisitorAdapter {
+@Override
+public void visit(ClassOrInterfaceDeclaration n, Void args) {
+/* here you can access the attributes of the method.
+System.out.println(n,getFields());
+Super.visit(n,arg);
+      }
+    }
+}
+
